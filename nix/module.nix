@@ -68,6 +68,10 @@ in
         RestartSec = 2;
         # 78 = EX_CONFIG: unreadable config; restarting cannot fix it.
         RestartPreventExitStatus = 78;
+        # Only stop the app itself: apps launched from a key (launch_app,
+        # run_command with `&`) live in this cgroup and would otherwise be
+        # killed whenever the service stops or restarts.
+        KillMode = "process";
       };
     };
   };
