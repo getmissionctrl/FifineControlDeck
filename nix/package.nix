@@ -14,6 +14,7 @@
   autoPatchelfHook,
   makeWrapper,
   systemdLibs,
+  dejavu_fonts,
   # Tools the built-in actions shell out to (media, volume, open URL, hotkeys).
   playerctl,
   wireplumber,
@@ -76,6 +77,8 @@ stdenv.mkDerivation {
     makeWrapperArgs+=(
       --prefix PYTHONPATH : $share
       --prefix PATH : ${lib.makeBinPath [ playerctl wireplumber pulseaudio xdg-utils wtype libnotify ]}
+      # Key labels: rendering.py only looks under /usr/share/fonts otherwise.
+      --set-default FIFINE_DECK_FONT ${dejavu_fonts}/share/fonts/truetype/DejaVuSans-Bold.ttf
       "''${qtWrapperArgs[@]}"
     )
     makeWrapper ${python}/bin/python3 $out/bin/fifine-control-deck \

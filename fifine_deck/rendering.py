@@ -14,10 +14,12 @@ log = logging.getLogger(__name__)
 
 from PIL import Image, ImageDraw, ImageFont, ImageEnhance
 
-# Cover the common layouts: Debian/Ubuntu (truetype/…), Fedora
-# (dejavu/…, liberation-fonts/…), Arch (TTF/…). Missing all of them silently
-# degrades to Pillow's tiny bitmap font.
+# $FIFINE_DECK_FONT wins (distros without /usr/share/fonts, e.g. NixOS, set
+# it in their wrapper); then the common layouts: Debian/Ubuntu (truetype/…),
+# Fedora (dejavu/…, liberation-fonts/…), Arch (TTF/…). Missing all of them
+# silently degrades to Pillow's tiny bitmap font.
 _FONT_CANDIDATES = [
+    *filter(None, [os.environ.get("FIFINE_DECK_FONT")]),
     "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
     "/usr/share/fonts/dejavu/DejaVuSans-Bold.ttf",
     "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
